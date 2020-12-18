@@ -7,17 +7,16 @@ import kotlinx.coroutines.runBlocking
 
 fun main() {
     runBlocking {
-        val job = launchSwarm()
-        job.cancel()
+        launchSwarm().join()
     }
     println("No problem ...")
 }
 
 fun CoroutineScope.launchSwarm() =
     launch {
-        repeat(1_000_000) {
+        repeat(100_000) { // launching a million takes some time but succeeds
             launch {
-                delay(Long.MAX_VALUE)
+                delay(100)
             }
         }
     }

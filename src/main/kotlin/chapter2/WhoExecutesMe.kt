@@ -2,17 +2,18 @@ package chapter2
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(ObsoleteCoroutinesApi::class)
 fun main() {
     runBlocking {
         runSwarm(newFixedThreadPoolContext(2, "two thread"))

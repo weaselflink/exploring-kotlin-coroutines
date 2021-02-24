@@ -40,6 +40,10 @@ fun CoroutineScope.runSwarm(context: CoroutineContext) {
             }
         }.toList().distinct().count()
 
-        println("${Thread.currentThread().name.substringBefore(" @").substringBefore("-")}: thread count $count")
+        val dispatcherName = Thread.currentThread()
+            .name
+            .substringBefore(" @")
+            .substringBefore("-")
+        println("$dispatcherName: thread count $count")
     }
 }

@@ -1,6 +1,6 @@
 # Exploring coroutines
 
-This project tries to explore the possibilities and problems of coroutines via ready to run examples.
+This project explores the possibilities and problems of coroutines via ready to run examples.
 
 ## Chapter 1
 

@@ -5,11 +5,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.yield
 import java.time.Instant
 import kotlin.concurrent.thread
-import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ObsoleteCoroutinesApi::class)
 fun main() {

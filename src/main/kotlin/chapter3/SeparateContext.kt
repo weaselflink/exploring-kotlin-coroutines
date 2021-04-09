@@ -16,7 +16,7 @@ fun main() {
     runBlocking {
         repeat(10) {
             launch(poolContext) {
-                somethingThatBlocksThreads()
+                somethingThatBlocks()
             }
         }
         repeat(5) {
@@ -27,12 +27,12 @@ fun main() {
     }
 }
 
-fun somethingThatBlocksThreads() {
+private fun somethingThatBlocks() {
     Thread.sleep(100)
     println("blocking: ${Instant.now()}")
 }
 
-suspend fun somethingThatSuspends() {
+private suspend fun somethingThatSuspends() {
     delay(1)
     println("non-blocking: ${Instant.now()}")
 }

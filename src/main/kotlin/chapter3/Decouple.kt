@@ -17,11 +17,11 @@ import java.time.Instant
 fun main() {
     val context = newSingleThreadContext("single")
 
-    runBlocking {
-        val channel = startWorker(context)
+    runBlocking(context) {
+        val channel = startWorker()
 
         repeat(10) {
-            launch(context) {
+            launch {
                 CompletableDeferred<Instant>().also { msg ->
                     channel.send(msg)
                     println("blocking: ${msg.await()}")
@@ -29,15 +29,17 @@ fun main() {
             }
         }
         repeat(5) {
-            launch(context) {
+            launch {
                 somethingThatSuspends()
             }
         }
+
+
     }
 }
 
 @OptIn(ObsoleteCoroutinesApi::class)
-private fun CoroutineScope.startWorker(context: CoroutineDispatcher): SendChannel<CompletableDeferred<Instant>> =
+private fun CoroutineScope.startWorker(): SendChannel<CompletableDeferred<Instant>> =
     Channel<CompletableDeferred<Instant>>().also { channel ->
 
         val poolContext = newFixedThreadPoolContext(2, "pool")
@@ -45,12 +47,13 @@ private fun CoroutineScope.startWorker(context: CoroutineDispatcher): SendChanne
 
         // the part of the worker that handles messages
         // still uses the original single thread context
-        launch(context) {
+        launch {
             for (msg in channel) {
                 launch(poolContext) {
                     msg.complete(somethingThatBlocks())
                 }
-                if (count++ >= 10) break
+                // stop after 10 messages to allow main method to terminate
+                if (++count >= 10) break
             }
         }
     }

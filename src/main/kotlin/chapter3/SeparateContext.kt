@@ -13,14 +13,14 @@ fun main() {
     val context = newSingleThreadContext("single")
     val poolContext = newFixedThreadPoolContext(2, "pool")
 
-    runBlocking {
+    runBlocking(context) {
         repeat(10) {
             launch(poolContext) {
                 somethingThatBlocks()
             }
         }
         repeat(5) {
-            launch(context) {
+            launch {
                 somethingThatSuspends()
             }
         }

@@ -21,7 +21,7 @@ fun main() {
         }
         repeat(5) {
             launch(context) {
-                somethingThatJustRuns()
+                somethingThatSuspends()
             }
         }
     }
@@ -32,7 +32,7 @@ fun somethingThatBlocksThreads() {
     println("blocking: ${Instant.now()}")
 }
 
-suspend fun somethingThatJustRuns() {
+suspend fun somethingThatSuspends() {
     delay(1)
     println("non-blocking: ${Instant.now()}")
 }

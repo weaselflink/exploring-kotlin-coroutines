@@ -32,8 +32,6 @@ fun main() {
                 somethingThatSuspends()
             }
         }
-
-
     }
 }
 

@@ -21,7 +21,8 @@ the purpose of using coroutines ([FakeCoroutine.kt](src/main/kotlin/chapter2/Fak
 ## Chapter 3
 
 You cannot use code that blocks threads without special precautions, since any snippet
-that blocks the thread for a long time blocks all coroutines on the same context.
+that blocks the thread for a long time blocks a thread of the coroutine context.
+When there are no more threads left running, all coroutines will be blocked.
 
 __Solution 1:__ Explicitly launch a thread for each piece of blocking code
 ([LaunchThread.kt](src/main/kotlin/chapter3/LaunchThread.kt)). This can obviously only be done until we run 

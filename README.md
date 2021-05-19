@@ -45,5 +45,12 @@ In a single thread context coroutines created by `launch()` will only be started
 calling coroutine suspends, e.g. via `yield()`
 ([ManuallySuspend.kt](src/main/kotlin/chapter4/ManuallySuspend.kt)).
 
+The `launch()` method returns a `Job` instance, which can be used to control or query the coroutine's state
+([LaunchReturnsAJob.kt](src/main/kotlin/chapter4/LaunchReturnsAJob.kt)).
+
 A context with multiple threads might execute the launched coroutine at any time
 ([LaunchMayBeStartedByAnotherThread.kt](src/main/kotlin/chapter4/LaunchMayBeStartedByAnotherThread.kt)).
+
+Using `async()` is just like `launch()` but it can return a value inside an instance of `Deferred`, which
+derives from `Job` so also allows control over the coroutine
+([AsyncIsLikeLaunchButReturnsAValue.kt](src/main/kotlin/chapter4/AsyncIsLikeLaunchButReturnsAValue.kt)).

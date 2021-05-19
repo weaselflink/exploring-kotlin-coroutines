@@ -6,16 +6,15 @@ import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 fun main() {
-    val poolContext = Executors.newFixedThreadPool(10).asCoroutineDispatcher()
-
-    runBlocking(poolContext) {
-        repeat(5) {
-            launch {
-                println("I may execute immediately ($it)")
+    Executors.newFixedThreadPool(10).asCoroutineDispatcher()
+        .use { poolContext ->
+            runBlocking(poolContext) {
+                repeat(5) {
+                    launch {
+                        println("I may execute immediately ($it)")
+                    }
+                }
+                println("I get called somewhere in between")
             }
         }
-        println("I get called somewhere in between")
-    }
-
-    poolContext.close()
 }

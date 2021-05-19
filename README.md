@@ -2,7 +2,7 @@
 
 This project explores the possibilities and problems of coroutines via ready to run examples.
 
-## Chapter 1
+## Chapter 1 - Why use coroutines
 
 There is a limit how many threads can be run ([ThreadCount.kt](src/main/kotlin/chapter1/ThreadCount.kt)),
 that is surprisingly low (depends on JVM memory).
@@ -10,7 +10,7 @@ that is surprisingly low (depends on JVM memory).
 Coroutines are more resource friendly ([CoroutineCount.kt](src/main/kotlin/chapter1/CoroutineCount.kt))
 and can be launched in much higher numbers (think many thousands).
 
-## Chapter 2
+## Chapter 2 - Who executes coroutines
 
 Coroutines still use threads, which can come from different
 sources ([WhoExecutesMe.kt](src/main/kotlin/chapter2/WhoExecutesMe.kt)).
@@ -18,7 +18,7 @@ sources ([WhoExecutesMe.kt](src/main/kotlin/chapter2/WhoExecutesMe.kt)).
 Blocking the thread used for coroutine execution defeats
 the purpose of using coroutines ([FakeCoroutine.kt](src/main/kotlin/chapter2/FakeCoroutine.kt)).
 
-## Chapter 3
+## Chapter 3 - Handling blocking code
 
 You cannot use code that blocks threads without special precautions, since any snippet
 that blocks the thread for a long time blocks a thread of the coroutine context.

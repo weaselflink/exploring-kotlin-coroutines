@@ -35,3 +35,15 @@ that can be used by blocking code but makes it difficult to synchronize with the
 __Solution 3:__ Decouple the blocking code in something like a worker or actor 
 ([Decouple.kt](src/main/kotlin/chapter3/Decouple.kt)). This is essentially the same as solution 2 with
 an additional channel for communication.
+
+## Chapter 3 - The launch() method
+
+The `launch()` method needs a context, but is not suspending
+([LaunchDoesNotSuspend.kt](src/main/kotlin/chapter4/LaunchDoesNotSuspend.kt)).
+
+In a single thread context coroutines created by `launch()` will only be started once the 
+calling coroutine suspends, e.g. via `yield()`
+([ManuallySuspend.kt](src/main/kotlin/chapter4/ManuallySuspend.kt)).
+
+A context with multiple threads might execute the launched coroutine at any time
+([LaunchMayBeStartedByAnotherThread.kt](src/main/kotlin/chapter4/LaunchMayBeStartedByAnotherThread.kt)).

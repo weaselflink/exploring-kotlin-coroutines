@@ -1,4 +1,4 @@
-@file:Suppress("PropertyName", "SuspiciousCollectionReassignment")
+@file:Suppress("PropertyName")
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -12,7 +12,6 @@ plugins {
 
 repositories {
     mavenCentral()
-    jcenter()
     maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
@@ -25,7 +24,6 @@ tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = "11"
-            freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
         }
     }
 }

@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Exploring Kotlin coroutines</title>
+
+    <meta name="author" content="Stefan Bissell">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <style>
+        pre {
+            tab-size: 4;
+            -moz-tab-size: 4;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h3>Exploring Kotlin coroutines</h3>
+            <p>
+                <small>Stefan Bissell</small>
+            </p>
+        </section>
+        <section>
+            <h4>Why do we use threads?</h4>
+            <p>Threads are used to &hellip;</p>
+            <ul>
+                <li class="fragment">utilize multiple processors.</li>
+                <li class="fragment">handle code that waits.</li>
+            </ul>
+        </section>
+        <section>
+            <h4>What does a thread cost?</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+				while (true) {
+					thread {
+						TimeUnit.MINUTES.sleep(1)
+					}
+				}
+            </code></pre>
+            <p>You will get a OutOfMemoryError relatively soon<br>(a few thousand threads on my machine).</p>
+        </section>
+        <section>
+            <h4>Coroutines are cheap</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+				runBlocking {
+					repeat(1_000_000) {
+						launch {
+							delay(TimeUnit.MINUTES.toMillis(1))
+						}
+					}
+				}
+            </code></pre>
+            <p>Coroutines love waiting for something.</p>
+        </section>
+        <section>
+            <h4>No more threads?</h4>
+            <p>Coroutines still need threads to execute them.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                val context = newSingleThreadContext("single thread")
+                runBlocking {
+                    launch(context) {
+                        println(Thread.currentThread().name)
+                    }
+                }
+			</code></pre>
+        </section>
+        <section>
+            <h4>Breaking coroutines</h4>
+            <p>
+                Blocking the thread inside a coroutine is a bad idea!
+            </p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                val context = newSingleThreadContext("single thread")
+                runBlocking {
+                    launch(context) {
+                        TimeUnit.MINUTES.sleep(1)
+                    }
+                    launch(context) {
+                        println("I have to wait a minute")
+                    }
+                }
+			</code></pre>
+        </section>
+    </div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealHighlight, RevealNotes]
+    });
+</script>
+</body>
+</html>

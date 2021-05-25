@@ -1,5 +1,6 @@
 package chapter1
 
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import kotlin.system.exitProcess
 
@@ -8,7 +9,7 @@ fun main() {
     try {
         while (true) {
             thread {
-                Thread.sleep(Long.MAX_VALUE)
+                TimeUnit.MINUTES.sleep(1)
             }
             count++
         }

@@ -38,8 +38,8 @@
             <h4>Why do we use threads?</h4>
             <p>Threads are used to &hellip;</p>
             <ul>
-                <li class="fragment">utilize multiple processors.</li>
-                <li class="fragment">handle code that waits.</li>
+                <li class="fragment">utilize multiple processors</li>
+                <li class="fragment">handle code that waits</li>
             </ul>
         </section>
         <section>
@@ -95,6 +95,17 @@
         </section>
         <section data-background="images/launch.png">
             <h3 style="color: black;">Launching coroutines</h3>
+        </section>
+        <section>
+            <h4>The launch() method</h4>
+            <pre><code class="kotlin" data-trim>
+                public fun CoroutineScope.launch(...): Job
+            </code></pre>
+            <ul>
+                <li class="fragment">has no <code>suspend</code> keyword</li>
+                <li class="fragment">needs a <code>CoroutineScope</code></li>
+                <li class="fragment">returns a <code>Job</code></li>
+            </ul>
         </section>
     </div>
 </div>

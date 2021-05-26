@@ -80,9 +80,7 @@
         </section>
         <section>
             <h4>Breaking coroutines</h4>
-            <p>
-                Blocking the thread inside a coroutine is a bad idea!
-            </p>
+            <p>Blocking the thread inside a coroutine is a bad idea!</p>
             <pre><code class="kotlin" data-trim data-line-numbers>
                 val context = newSingleThreadContext("single thread")
                 runBlocking {

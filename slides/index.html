@@ -39,7 +39,7 @@
             <p>Threads are used to &hellip;</p>
             <ul>
                 <li class="fragment">utilize multiple processors</li>
-                <li class="fragment">handle code that waits</li>
+                <li class="fragment"><b>wait</b></li>
             </ul>
         </section>
         <section>
@@ -52,6 +52,14 @@
 				}
             </code></pre>
             <p>You will get a OutOfMemoryError relatively soon<br>(a few thousand threads on my machine).</p>
+        </section>
+        <section>
+            <h4>Threads mostly wait</h4>
+            <img alt="" src="images/blocked-threads.svg">
+        </section>
+        <section>
+            <h4>One thread should be enough</h4>
+            <img alt="" src="images/suspended-coroutines.svg">
         </section>
         <section>
             <h4>Coroutines are cheap</h4>

@@ -130,6 +130,32 @@
                 println("I am third")
             </code></pre>
         </section>
+        <section>
+            <h4>Needs a <code>CoroutineScope</code></h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                runBlocking {
+                    launch {
+                        // ...
+                    }
+                }
+                CoroutineScope(someContext).launch {
+                    // ...
+                }
+            </code></pre>
+        </section>
+        <section>
+            <h4>Returns a <code>Job</code></h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                val job = launch {
+                    // ...
+                }
+                if (job.isActive) {
+                    // react to coroutine state
+                }
+                job.cancel()
+                job.join()
+            </code></pre>
+        </section>
     </div>
 </div>
 

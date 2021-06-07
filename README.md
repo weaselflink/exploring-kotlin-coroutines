@@ -77,3 +77,10 @@ that are not completed (see [ManualCancellation.kt](src/main/kotlin/chapter6/Man
 
 Running a coroutine as a child of a `SupervisorJob` will stop any cancellation to propagate out of that coroutine
 (see [SupervisorJobCancellation.kt](src/main/kotlin/chapter6/SupervisorJobCancellation.kt)).
+
+## Chapter 7 - Use cases
+
+There is no need for starting a thread for each call to a remote endpoint 
+([ServiceCaller.kt](src/main/kotlin/chapter7/ServiceCaller.kt)).
+
+

@@ -61,5 +61,5 @@ Running inside `runBlocking()` blocks the current thread and uses it to execute 
 (see [UsingRunBlocking.kt](src/main/kotlin/chapter5/UsingRunBlocking.kt)).
 
 Calling `coroutineScope()` suspends the current coroutine until the execution inside it terminates, it acts
-like `runBlocking()` but inside an existing coroutine
+like `runBlocking()` but inside an existing coroutine. It can also return a value
 (see [UsingCoroutineScope.kt](src/main/kotlin/chapter5/UsingCoroutineScope.kt)).

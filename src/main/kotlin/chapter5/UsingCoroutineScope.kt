@@ -7,8 +7,9 @@ import kotlinx.coroutines.runBlocking
 
 fun main() {
     runBlocking {
-        coroutineScope {
+        val a = coroutineScope {
             println("I am first")
+            5
         }
         println("I am second")
     }

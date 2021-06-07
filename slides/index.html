@@ -21,8 +21,24 @@
             -moz-tab-size: 4;
         }
 
-        .slide-background {
-            filter: brightness(50%);
+        .reveal h2, .reveal h3 {
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke: 2px black;
+            font-family: Impact, serif;
+        }
+
+        .reveal h2 {
+            font-size: 2.2em;
+        }
+
+        .reveal h3 {
+            font-size: 1.8em;
+        }
+
+        .author {
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke: 2px black;
+            font-family: Impact, serif;
         }
     </style>
 </head>
@@ -31,9 +47,7 @@
     <div class="slides">
         <section data-background="images/mars-rover.png">
             <h2>Exploring Kotlin coroutines</h2>
-            <p>
-                <small>Stefan Bissell</small>
-            </p>
+            <p class="author"><span class="author">Stefan Bissell</span></p>
         </section>
         <section data-background="images/but-why.png">
             <h3>Why use coroutines?</h3>
@@ -120,7 +134,7 @@
             </ul>
         </section>
         <section>
-            <h4>No <code>suspend</code> keyword</h4>
+            <h4>Not suspending</h4>
             <pre><code class="kotlin" data-trim data-line-numbers>
                 launch {
                     println("I am second")
@@ -131,7 +145,7 @@
             </code></pre>
         </section>
         <section>
-            <h4>Needs a <code>CoroutineScope</code></h4>
+            <h4>Needs a scope</h4>
             <pre><code class="kotlin" data-trim data-line-numbers>
                 runBlocking {
                     launch {
@@ -144,7 +158,7 @@
             </code></pre>
         </section>
         <section>
-            <h4>Returns a <code>Job</code></h4>
+            <h4>Returns a Job</h4>
             <pre><code class="kotlin" data-trim data-line-numbers>
                 val job = launch {
                     // ...

@@ -13,32 +13,33 @@
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/black.css">
 
+    <link rel="preload" href="./fonts/Coda-Heavy.ttf" as="font" type="font/woff2"/>
+
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/monokai.css">
     <style>
+        @font-face {
+            font-family: Coda;
+            src: url(./fonts/Coda-Heavy.ttf);
+        }
+
         pre {
             tab-size: 4;
             -moz-tab-size: 4;
         }
 
-        .reveal h2, .reveal h3 {
+        .reveal h2, .reveal h3, .author {
             -webkit-font-smoothing: antialiased;
             -webkit-text-stroke: 2px black;
-            font-family: Impact, serif;
+            font-family: Coda, serif;
         }
 
         .reveal h2 {
-            font-size: 2.2em;
-        }
-
-        .reveal h3 {
             font-size: 1.8em;
         }
 
-        .author {
-            -webkit-font-smoothing: antialiased;
-            -webkit-text-stroke: 2px black;
-            font-family: Impact, serif;
+        .reveal h3 {
+            font-size: 1.4em;
         }
     </style>
 </head>

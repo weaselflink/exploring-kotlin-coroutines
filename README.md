@@ -66,3 +66,14 @@ like `runBlocking()` but inside an existing coroutine. It can also return a valu
 
 A scope can be created without blocking and outside an existing coroutine
 (see [ManualScope.kt](src/main/kotlin/chapter5/ManualScope.kt)).
+
+## Chapter 6 - Cancellation
+
+Throwing an exception in a coroutine cancels all still running coroutines in the same scope. This includes
+parents, siblings and children (see [ExceptionCancellation.kt](src/main/kotlin/chapter6/ExceptionCancellation.kt)).
+
+Cancelling a coroutine manually (or throwing a `CancellationException`) will only cancel children 
+that are not completed (see [ManualCancellation.kt](src/main/kotlin/chapter6/ManualCancellation.kt)).
+
+Running a coroutine as a child of a `SupervisorJob` will stop any cancellation to propagate out of that coroutine
+(see [SupervisorJobCancellation.kt](src/main/kotlin/chapter6/SupervisorJobCancellation.kt)).

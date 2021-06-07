@@ -4,24 +4,26 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.supervisorScope
 
 fun main() {
     runBlocking {
-        val job = SupervisorJob()
-        launch(job) {
-            launch(job) {
-                delay(200)
-                println("child")
+        supervisorScope {
+            launch {
+                launch {
+                    delay(200)
+                    println("child")
+                }
+                delay(100)
+                println("I cancel nobody")
+                throw Exception()
             }
-            delay(100)
-            println("I cancel nobody")
-            throw Exception()
-        }
-        launch(job) {
+            launch {
+                delay(200)
+                println("sibling")
+            }
             delay(200)
-            println("sibling")
+            println("parent")
         }
-        delay(200)
-        println("parent")
     }
 }

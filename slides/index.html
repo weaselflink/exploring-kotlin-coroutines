@@ -180,6 +180,58 @@
                 job.join()
             </code></pre>
         </section>
+        <section data-background="images/cancelled.png">
+            <h3>Cancelling coroutines</h3>
+        </section>
+        <section>
+            <h4>Exception</h4>
+            <p>Cancels whole scope.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                launch {
+                    launch {
+                        // cancelled
+                    }
+                    throw Exception()
+                }
+                launch {
+                    // cancelled
+                }
+                // cancelled
+            </code></pre>
+        </section>
+        <section>
+            <h4>Manual cancellation</h4>
+            <p>Cancels only self and children.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                launch {
+                    launch {
+                        // cancelled
+                    }
+                    cancel()
+                }
+                launch {
+                    // runs fine
+                }
+                // runs fine
+            </code></pre>
+        </section>
+        <section>
+            <h4>SupervisorJob</h4>
+            <p>Exception cancellation is contained in children.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                supervisorScope {
+                    launch {
+                        launch {
+                            // cancelled
+                        }
+                        throw Exception()
+                    }
+                    launch {
+                        // runs fine
+                    }
+                }
+            </code></pre>
+        </section>
         <section>
             <p>Examples and slides:</p>
             <p class="github">https://github.com/weaselflink/exploring-kotlin-coroutines</p>

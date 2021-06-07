@@ -119,6 +119,22 @@
                 <li class="fragment">returns a <code>Job</code></li>
             </ul>
         </section>
+        <section>
+            <h4>No <code>suspend</code> keyword</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                launch {
+                    println("I am second")
+                }
+                println("I am first")
+                yield() // allows launch to run
+                println("I am third")
+            </code></pre>
+            <ul>
+                <li class="fragment">has no <code>suspend</code> keyword</li>
+                <li class="fragment">needs a <code>CoroutineScope</code></li>
+                <li class="fragment">returns a <code>Job</code></li>
+            </ul>
+        </section>
     </div>
 </div>
 

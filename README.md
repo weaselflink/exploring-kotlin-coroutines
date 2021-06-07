@@ -36,7 +36,7 @@ __Solution 3:__ Decouple the blocking code in something like a worker or actor
 ([Decouple.kt](src/main/kotlin/chapter3/Decouple.kt)). This is essentially the same as solution 2 with
 an additional channel for communication.
 
-## Chapter 3 - The launch() method
+## Chapter 4 - The launch() method
 
 The `launch()` method needs a context, but is not suspending
 ([LaunchDoesNotSuspend.kt](src/main/kotlin/chapter4/LaunchDoesNotSuspend.kt)).

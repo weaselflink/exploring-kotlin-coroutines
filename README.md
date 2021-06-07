@@ -36,7 +36,7 @@ __Solution 3:__ Decouple the blocking code in something like a worker or actor
 ([Decouple.kt](src/main/kotlin/chapter3/Decouple.kt)). This is essentially the same as solution 2 with
 an additional channel for communication.
 
-## Chapter 4 - The launch() method
+## Chapter 4 - The `launch()` method
 
 The `launch()` method needs a context, but is not suspending
 ([LaunchDoesNotSuspend.kt](src/main/kotlin/chapter4/LaunchDoesNotSuspend.kt)).
@@ -54,3 +54,12 @@ A context with multiple threads might execute the launched coroutine at any time
 Using `async()` is just like `launch()` but it can return a value inside an instance of `Deferred`, which
 derives from `Job` so also allows control over the coroutine
 ([AsyncIsLikeLaunchButReturnsAValue.kt](src/main/kotlin/chapter4/AsyncIsLikeLaunchButReturnsAValue.kt)).
+
+## Chapter 5 - The `CoroutineScope`
+
+Running inside `runBlocking()` blocks the current thread and uses it to execute all coroutines inside it
+(see [UsingRunBlocking.kt](src/main/kotlin/chapter5/UsingRunBlocking.kt)).
+
+Calling `coroutineScope()` suspends the current coroutine until the execution inside it terminates, it acts
+like `runBlocking()` but inside an existing coroutine
+(see [UsingCoroutineScope.kt](src/main/kotlin/chapter5/UsingCoroutineScope.kt)).

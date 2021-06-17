@@ -50,7 +50,7 @@
 <body>
 <div class="reveal">
     <div class="slides">
-        <section data-background="images/mars-rover.png">
+        <section data-background="images/mars-rover.png" data-background-opacity="0.6">
             <h2>Exploring Kotlin coroutines</h2>
             <p class="author">Stefan Bissell</p>
         </section>
@@ -59,7 +59,7 @@
             <p class="github">https://github.com/weaselflink/exploring-kotlin-coroutines</p>
             <img alt="qr-code" src="images/github-qr.png"/>
         </section>
-        <section data-background="images/but-why.png">
+        <section data-background="images/but-why.png" data-background-opacity="0.6">
             <h3>Why coroutines?</h3>
         </section>
         <section>
@@ -129,7 +129,7 @@
                 }
 			</code></pre>
         </section>
-        <section data-background="images/launch.png">
+        <section data-background="images/launch.png" data-background-opacity="0.6">
             <h3>Launching coroutines</h3>
         </section>
         <section>
@@ -180,7 +180,7 @@
                 job.join()
             </code></pre>
         </section>
-        <section data-background="images/cancelled.png">
+        <section data-background="images/cancelled.png" data-background-opacity="0.6">
             <h3>Cancelling coroutines</h3>
         </section>
         <section>
@@ -231,6 +231,21 @@
                     }
                 }
             </code></pre>
+        </section>
+        <section data-background="images/steam-engine.png" data-background-position="top" data-background-opacity="0.6">
+            <h3>Practical applications</h3>
+        </section>
+        <section>
+            <h4>HTTP workers</h4>
+            <p class="fragment"><b>Problem:</b> calling slow services exhausts thread pool</p>
+            <p class="fragment"><b>Old solution:</b> separate thread pool per service</p>
+            <p class="fragment"><b>Problem:</b> a few slow calls can block service</p>
+        </section>
+        <section>
+            <h4>Non-blocking HTTP</h4>
+            <p>Non-blocking clients </p>
+            <p class="fragment"><b>Old solution:</b> separate thread pool per service</p>
+            <p class="fragment"><b>Problem:</b> a few slow calls can block service</p>
         </section>
         <section>
             <p>Examples and slides:</p>

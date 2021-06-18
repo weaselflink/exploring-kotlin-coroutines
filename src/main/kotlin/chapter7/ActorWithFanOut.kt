@@ -33,10 +33,10 @@ fun main() {
 fun CoroutineScope.shoppingCartActor() =
     actor<ShoppingCartPriceRequest> {
         for (message in channel) {
-            val subActor = itemAggregatorActor(message.result)
+            val aggregator = itemAggregatorActor(message.result)
             getShoppingCart(message.id)
-                .forEach { subActor.send(ItemPriceRequest(it)) }
-            subActor.close()
+                .forEach { aggregator.send(ItemPriceRequest(it)) }
+            aggregator.close()
         }
     }
 

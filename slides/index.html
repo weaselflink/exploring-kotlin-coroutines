@@ -67,7 +67,7 @@
             <p>Threads are used to &hellip;</p>
             <ul>
                 <li class="fragment">utilize multiple processors</li>
-                <li class="fragment"><b>wait</b></li>
+                <li class="fragment"><b>WAIT</b></li>
             </ul>
         </section>
         <section>
@@ -267,9 +267,10 @@
                 supervisorScope {
                     repeat(1_000) {
                         launch {
-                            get("https://httpbin.org/delay/5").also {
-                                println(it.statusCode())
-                            }
+                            get("https://httpbin.org/delay/5")
+                                .also {
+                                    println(it.statusCode())
+                                }
                         }
                     }
                 }
@@ -308,17 +309,14 @@
         <section>
             <h4>Fan out</h4>
             <pre><code class="kotlin" data-trim data-line-numbers>
-                actor&lt;CounterAction&gt; {
-                    var counter = 0 // <- mutable state
+                actor&lt;ShoppingCartPriceRequest&gt; {
                     for (message in channel) {
-                        when (message) {
-                            is CounterAction.Add -> {
-                                counter += message.value
+                        val aggregator = aggregatorActor(message.result)
+                        getShoppingCart(message.id)
+                            .forEach {
+                                aggregator.send(ItemPriceRequest(it))
                             }
-                            is CounterAction.Get -> {
-                                message.answer.complete(counter)
-                            }
-                        }
+                        aggregator.close()
                     }
                 }
             </code></pre>
@@ -352,9 +350,9 @@
             <h4>KTOR</h4>
             <p>Every call can take as much time as it likes.</p>
             <pre><code class="kotlin" data-trim data-line-numbers>
-                get("/sales") {
+                get("/sales.csv") {
                     call.respondBytesWriter {
-                        getSoldItems()
+                        getSoldItemLines() // produce lines on demand
                             .forEach {
                                 writeAvailable(it.toByteBuffer())
                             }

@@ -83,4 +83,6 @@ Running a coroutine as a child of a `SupervisorJob` will stop any cancellation t
 There is no need for starting a thread for each call to a remote endpoint 
 ([ServiceCaller.kt](src/main/kotlin/chapter7/ServiceCaller.kt)).
 
-
+While not a true actor model ([see Wikipedia](https://en.wikipedia.org/wiki/Actor_model)), 
+if you think of `CompletableDeferred` of a channel that only accepts a single
+message, it comes pretty close ([Actor.kt](src/main/kotlin/chapter7/Actor.kt)).

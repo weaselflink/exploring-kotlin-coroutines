@@ -129,6 +129,9 @@
                 }
 			</code></pre>
         </section>
+        <section data-background="images/basic.png" data-background-opacity="0.6">
+            <h3>Basics</h3>
+        </section>
         <section data-background="images/launch.png" data-background-opacity="0.6">
             <h3>Launching coroutines</h3>
         </section>
@@ -235,6 +238,9 @@
         <section data-background="images/steam-engine.png" data-background-position="top" data-background-opacity="0.6">
             <h3>Practical applications</h3>
         </section>
+        <section data-background="images/workers.png" data-background-opacity="0.6">
+            <h3>Worker pools</h3>
+        </section>
         <section>
             <h4>HTTP workers</h4>
             <p class="fragment"><b>Problem:</b> calling slow services exhausts thread pool</p>
@@ -243,9 +249,87 @@
         </section>
         <section>
             <h4>Non-blocking HTTP</h4>
-            <p>Non-blocking clients </p>
-            <p class="fragment"><b>Old solution:</b> separate thread pool per service</p>
-            <p class="fragment"><b>Problem:</b> a few slow calls can block service</p>
+            <p>Non-blocking clients (e.g. java.net.http) can be easily used from coroutines.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                suspend fun get(url: String): HttpResponse&lt;String&gt; =
+                    HttpClient
+                        .newHttpClient()
+                        .sendAsync(
+                            HttpRequest.newBuilder(URI(url)).GET().build(),
+                            HttpResponse.BodyHandlers.ofString()
+                        )
+                        .await()
+            </code></pre>
+        </section>
+        <section>
+            <h4>No more thread pools</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                supervisorScope {
+                    repeat(1_000) {
+                        launch {
+                            get("https://httpbin.org/delay/5").also {
+                                println(it.statusCode())
+                            }
+                        }
+                    }
+                }
+            </code></pre>
+        </section>
+        <section data-background="images/actors.png" data-background-opacity="0.6">
+            <h3>Actors</h3>
+        </section>
+        <section>
+            <h4>Actor model</h4>
+            <p>When an actor receives a message, it can (in any order)
+            <ul>
+                <li>send messages to other actors</li>
+                <li>create new actors</li>
+                <li>modify it's behaviour</li>
+            </ul>
+        </section>
+        <section>
+            <h4>Encapsulating state</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                actor&lt;CounterAction&gt; {
+                    var counter = 0 // <- mutable state
+                    for (message in channel) {
+                        when (message) {
+                            is CounterAction.Add -> {
+                                counter += message.value
+                            }
+                            is CounterAction.Get -> {
+                                message.answer.complete(counter)
+                            }
+                        }
+                    }
+                }
+            </code></pre>
+        </section>
+        <section data-background="images/server.png" data-background-opacity="0.6">
+            <h3>Web servers</h3>
+        </section>
+        <section>
+            <h4>One thread per request</h4>
+            <p>Classic Java web server way of handling requests.</p>
+            <p>More requests, more threads, more resources consumed.</p>
+        </section>
+        <section>
+            <h4>KTOR</h4>
+            <p>One (or more) coroutines per request.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                routing {
+                    get("/balance/{accountId}") {
+                        findAccounts(call.parameters["accountId"])
+                            .map {
+                                async { // launch + return value
+                                    getBalance(it)
+                                }
+                            }.sumOf {
+                                it.await()
+                            }
+                    }
+                }
+            </code></pre>
         </section>
         <section>
             <p>Examples and slides:</p>

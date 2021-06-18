@@ -305,6 +305,24 @@
                 }
             </code></pre>
         </section>
+        <section>
+            <h4>Fan out</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                actor&lt;CounterAction&gt; {
+                    var counter = 0 // <- mutable state
+                    for (message in channel) {
+                        when (message) {
+                            is CounterAction.Add -> {
+                                counter += message.value
+                            }
+                            is CounterAction.Get -> {
+                                message.answer.complete(counter)
+                            }
+                        }
+                    }
+                }
+            </code></pre>
+        </section>
         <section data-background="images/server.png" data-background-opacity="0.6">
             <h3>Web servers</h3>
         </section>
@@ -317,15 +335,28 @@
             <h4>KTOR</h4>
             <p>One (or more) coroutines per request.</p>
             <pre><code class="kotlin" data-trim data-line-numbers>
-                routing {
-                    get("/balance/{accountId}") {
-                        findAccounts(call.parameters["accountId"])
-                            .map {
-                                async { // launch + return value
-                                    getBalance(it)
-                                }
-                            }.sumOf {
-                                it.await()
+                get("/balance/{customerId}") {
+                    findAccounts(call.parameters["customerId"])
+                        .map {
+                            async { // launch + return value
+                                getBalance(it)
+                            }
+                        }
+                        .sumOf {
+                            it.await()
+                        }
+                }
+            </code></pre>
+        </section>
+        <section>
+            <h4>KTOR</h4>
+            <p>Every call can take as much time as it likes.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                get("/sales") {
+                    call.respondBytesWriter {
+                        getSoldItems()
+                            .forEach {
+                                writeAvailable(it.toByteBuffer())
                             }
                     }
                 }

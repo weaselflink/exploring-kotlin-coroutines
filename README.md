@@ -85,4 +85,9 @@ There is no need for starting a thread for each call to a remote endpoint
 
 While not a true actor model ([see Wikipedia](https://en.wikipedia.org/wiki/Actor_model)), 
 if you think of `CompletableDeferred` of a channel that only accepts a single
-message, it comes pretty close ([Actor.kt](src/main/kotlin/chapter7/Actor.kt)).
+message, it comes pretty close. The main function of this actor is to encapsulate mutable state
+([ActorWithInternalState.kt](src/main/kotlin/chapter7/ActorWithInternalState.kt)).
+
+Actors do not have to send back messages to the caller, they can create new actors which do this
+for example to fetch data concurrently
+([ActorWithFanOut.kt](src/main/kotlin/chapter7/ActorWithFanOut.kt)).

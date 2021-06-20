@@ -2,11 +2,12 @@ package chapter7
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 fun main() {
     val channel = Channel<Int>()
-    startReceivers(channel)
     runBlocking {
+        startReceivers(channel)
         repeat(10) {
             channel.send(it)
         }
@@ -14,16 +15,14 @@ fun main() {
     }
 }
 
-@OptIn(ObsoleteCoroutinesApi::class)
-private fun startReceivers(channel: Channel<Int>) {
-    val scope = CoroutineScope(newSingleThreadContext("dummy"))
+private fun CoroutineScope.startReceivers(channel: Channel<Int>) {
     repeat(4) {
-        scope.launch {
+        launch(Dispatchers.Default) {
             var sum = 0
             for (message in channel) {
                 sum += message
             }
-            println(sum)
+            println("${Thread.currentThread()}: $sum")
         }
     }
 }

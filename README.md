@@ -80,6 +80,17 @@ Running a coroutine as a child of a `SupervisorJob` will stop any cancellation t
 
 ## Chapter 7 - Channels
 
+By default, channels have a capacity of `RENDEZVOUS` which means that zero messages can be stored in the channel,
+and the sender is suspended until someone else calls receive
+([DefaultChannelCapacityIsZero.kt](src/main/kotlin/chapter7/DefaultChannelCapacityIsZero.kt)).
+
+You can use a for-loop to receive messages from a channel which does not exit until the channel is closed
+([ReceivingForLoopExitsOnClose.kt](src/main/kotlin/chapter7/ReceivingForLoopExitsOnClose.kt)).
+
+Senders and receivers of a channel can be running in different scopes enabling parallel execution even if
+the sender is executed by a single thread context
+([ReceiverCanHaveOtherScope.kt](src/main/kotlin/chapter7/ReceiverCanHaveOtherScope.kt)).
+
 ## Chapter 8 - Use cases
 
 There is no need for starting a thread for each call to a remote endpoint 

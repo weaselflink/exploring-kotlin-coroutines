@@ -78,16 +78,18 @@ that are not completed (see [ManualCancellation.kt](src/main/kotlin/chapter6/Man
 Running a coroutine as a child of a `SupervisorJob` will stop any cancellation to propagate out of that coroutine
 (see [SupervisorJobCancellation.kt](src/main/kotlin/chapter6/SupervisorJobCancellation.kt)).
 
-## Chapter 7 - Use cases
+## Chapter 7 - Channels
+
+## Chapter 8 - Use cases
 
 There is no need for starting a thread for each call to a remote endpoint 
-([ServiceCaller.kt](src/main/kotlin/chapter7/ServiceCaller.kt)).
+([ServiceCaller.kt](src/main/kotlin/chapter8/ServiceCaller.kt)).
 
 While not a true actor model ([see Wikipedia](https://en.wikipedia.org/wiki/Actor_model)), 
 if you think of `CompletableDeferred` of a channel that only accepts a single
 message, it comes pretty close. The main function of this actor is to encapsulate mutable state
-([ActorWithInternalState.kt](src/main/kotlin/chapter7/ActorWithInternalState.kt)).
+([ActorWithInternalState.kt](src/main/kotlin/chapter8/ActorWithInternalState.kt)).
 
 Actors do not have to send back messages to the caller, they can create new actors which do this
 for example to fetch data concurrently
-([ActorWithFanOut.kt](src/main/kotlin/chapter7/ActorWithFanOut.kt)).
+([ActorWithFanOut.kt](src/main/kotlin/chapter8/ActorWithFanOut.kt)).

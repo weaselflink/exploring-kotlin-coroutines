@@ -1,4 +1,4 @@
-package chapter7
+package chapter8
 
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope

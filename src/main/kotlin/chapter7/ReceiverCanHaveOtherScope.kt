@@ -2,7 +2,6 @@ package chapter7
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 
 fun main() {
     val channel = Channel<Int>()

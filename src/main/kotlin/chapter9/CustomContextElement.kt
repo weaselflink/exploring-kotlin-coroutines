@@ -13,6 +13,9 @@ fun main() {
             coroutineContext[ContextValue.Key]
                 ?.let { it.value = "test2" }
             printValue()
+            launch(ContextValue("test3")) {
+                printValue()
+            }
         }
     }
 }

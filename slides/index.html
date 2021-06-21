@@ -146,34 +146,69 @@
                 <li class="fragment">returns a <code>Job</code></li>
             </ul>
         </section>
-        <section>
+        <section data-auto-animate>
             <h4>Not suspending</h4>
-            <pre><code class="kotlin" data-trim data-line-numbers>
+            <pre data-id="launch-animation"><code class="kotlin" data-trim data-line-numbers>
                 launch {
                     println("I am second")
                 }
                 println("I am first")
-                yield() // allows launch to run
-                println("I am third")
             </code></pre>
         </section>
-        <section>
+        <section data-auto-animate>
+            <h4>Not suspending</h4>
+            <pre data-id="launch-animation"><code class="kotlin" data-trim data-line-numbers>
+                launch {
+                    println("I am first")
+                }
+                yield() // allows launch to run
+                println("I am second")
+            </code></pre>
+        </section>
+        <section data-auto-animate>
             <h4>Needs a scope</h4>
-            <pre><code class="kotlin" data-trim data-line-numbers>
+            <pre data-id="scope-animation"><code class="kotlin" data-trim data-line-numbers>
+                CoroutineScope(someContext).launch {
+                    // ...
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Needs a scope</h4>
+            <pre data-id="scope-animation"><code class="kotlin" data-trim data-line-numbers>
                 runBlocking {
                     launch {
                         // ...
                     }
                 }
-                CoroutineScope(someContext).launch {
-                    // ...
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Needs a scope</h4>
+            <pre data-id="scope-animation"><code class="kotlin" data-trim data-line-numbers>
+                suspend fun bla() {
+                    coroutineScope {
+                        launch {
+                            // ...
+                        }
+                    }
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Needs a scope</h4>
+            <pre data-id="scope-animation"><code class="kotlin" data-trim data-line-numbers>
+                suspend fun CoroutineScope.bla() {
+                    launch {
+                        // ...
+                    }
                 }
             </code></pre>
         </section>
         <section>
             <h4>Returns a Job</h4>
             <pre><code class="kotlin" data-trim data-line-numbers>
-                val job = launch {
+                val job: Job = launch {
                     // ...
                 }
                 if (job.isActive) {
@@ -181,6 +216,17 @@
                 }
                 job.cancel()
                 job.join()
+            </code></pre>
+        </section>
+        <section>
+            <h4>Deferred is also a Job</h4>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                val result: Deferred&lt;Int&gt; = async {
+                    5
+                }
+                val value = result.await() // 5
+                val job: Job = result
+                job.cancel()
             </code></pre>
         </section>
         <section data-background="images/cancelled.png" data-background-opacity="0.6">
@@ -237,6 +283,97 @@
         </section>
         <section data-background="images/la-river-origins.jpg" data-background-opacity="0.6">
             <h3>Channels</h3>
+        </section>
+        <section>
+            <h4>Suspending methods</h4>
+            <img alt="channel-methods" src="images/channel.svg"/>
+            <div class="fragment">
+                <pre class="fragment"><code class="kotlin" data-trim>
+                    suspend fun send(element: E)
+                    suspend fun receive(): E
+                </code></pre>
+            </div>
+        </section>
+        <section data-auto-animate>
+            <h4>Default capacity</h4>
+            <pre data-id="capacity-animation"><code class="kotlin" data-trim data-line-numbers>
+                runBlocking {
+                    val channel = Channel&lt;Int&gt;()
+                    channel.send(7)
+                    println(channel.receive())
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Default capacity</h4>
+            <pre data-id="capacity-animation"><code class="kotlin" data-trim data-line-numbers>
+                runBlocking {
+                    val channel = Channel&lt;Int&gt;()
+                    channel.send(7) // suspends forever
+                    println(channel.receive())
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Default capacity</h4>
+            <pre data-id="capacity-animation"><code class="kotlin" data-trim data-line-numbers>
+                runBlocking {
+                    val channel = Channel&lt;Int&gt;()
+                    launch {
+                        channel.send(7)
+                    }
+                    println(channel.receive())
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Default capacity</h4>
+            <pre data-id="capacity-animation"><code class="kotlin" data-trim data-line-numbers>
+                runBlocking {
+                    val channel = Channel&lt;Int&gt;(capacity = 1)
+                    channel.send(7)
+                    println(channel.receive())
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Can bridge across contexts</h4>
+            <p>Channel instances are not bound to coroutine scopes.</p>
+            <pre data-id="bridge-animation"><code class="kotlin" data-trim data-line-numbers>
+                val channel = Channel&lt;Int&gt;()
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Can bridge across contexts</h4>
+            <p>Channel instances are not bound to coroutine scopes.</p>
+            <pre data-id="bridge-animation"><code class="kotlin" data-trim data-line-numbers>
+                val channel = Channel&lt;Int&gt;()
+                scope1.launch {
+                    var sum = 0
+                    for (message in channel) {
+                        sum += message
+                    }
+                    println(sum)
+                }
+            </code></pre>
+        </section>
+        <section data-auto-animate>
+            <h4>Can bridge across contexts</h4>
+            <p>Channel instances are not bound to coroutine scopes.</p>
+            <pre data-id="bridge-animation"><code class="kotlin" data-trim data-line-numbers>
+                val channel = Channel&lt;Int&gt;()
+                scope1.launch {
+                    var sum = 0
+                    for (message in channel) {
+                        sum += message
+                    }
+                    println(sum)
+                }
+                scope2.launch {
+                    channel.send(1)
+                    channel.close()
+                }
+            </code></pre>
         </section>
         <section data-background="images/steam-engine.png" data-background-position="top" data-background-opacity="0.6">
             <h3>Practical applications</h3>

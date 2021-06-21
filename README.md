@@ -104,3 +104,10 @@ message, it comes pretty close. The main function of this actor is to encapsulat
 Actors do not have to send back messages to the caller, they can create new actors which do this
 for example to fetch data concurrently
 ([ActorWithFanOut.kt](src/main/kotlin/chapter8/ActorWithFanOut.kt)).
+
+## Chapter 9 - Scopes and contexts
+
+Launching a coroutine in a different dispatcher does not change the parent job. Exceptions will still cancel
+the coroutine it was launched from. Creating a new `CoroutineScope` will sever the job relation to the launching
+coroutine and allow the new coroutine to fail "silently"
+([ContextsDoNotChangeParentJob.kt](src/main/kotlin/chapter9/ContextsDoNotChangeParentJob.kt)).

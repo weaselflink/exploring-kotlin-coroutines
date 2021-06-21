@@ -111,3 +111,8 @@ Launching a coroutine in a different dispatcher does not change the parent job. 
 the coroutine it was launched from. Creating a new `CoroutineScope` will sever the job relation to the launching
 coroutine and allow the new coroutine to fail "silently"
 ([ContextsDoNotChangeParentJob.kt](src/main/kotlin/chapter9/ContextsDoNotChangeParentJob.kt)).
+
+A coroutine context can hold any number of elements of type `CoroutineContext.Element` such as `Job`, 
+`CoroutineDispatcher` or `CoroutineName` which have special functions. But it can also hold custom elements
+(see [CustomContextElement.kt](src/main/kotlin/chapter9/CustomContextElement.kt)). These can even be mutable,
+although this is probably a bad idea in most cases.

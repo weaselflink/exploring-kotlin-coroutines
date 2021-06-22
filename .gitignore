@@ -7,3 +7,6 @@
 *.iws
 
 /slides/demo.html
+
+# Mac OS
+**/.DS_Store

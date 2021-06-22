@@ -416,6 +416,45 @@
                 }
             </code></pre>
         </section>
+        <section data-background="images/server.png" data-background-opacity="0.6">
+            <h3>Web servers</h3>
+        </section>
+        <section>
+            <h4>One thread per request</h4>
+            <p>Classic Java web server way of handling requests.</p>
+            <p>More requests, more threads, more resources consumed.</p>
+        </section>
+        <section>
+            <h4>KTOR</h4>
+            <p>One (or more) coroutines per request.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                get("/balance/{customerId}") {
+                    findAccounts(call.parameters["customerId"])
+                        .map {
+                            async { // launch + return value
+                                getBalance(it)
+                            }
+                        }
+                        .sumOf {
+                            it.await()
+                        }
+                }
+            </code></pre>
+        </section>
+        <section>
+            <h4>KTOR</h4>
+            <p>Every call can take as much time as it likes.</p>
+            <pre><code class="kotlin" data-trim data-line-numbers>
+                get("/sales.csv") {
+                    call.respondBytesWriter {
+                        getSoldItemLines() // produce lines on demand
+                            .forEach {
+                                writeAvailable(it.toByteBuffer())
+                            }
+                    }
+                }
+            </code></pre>
+        </section>
         <section data-background="images/actors.png" data-background-opacity="0.6">
             <h3>Actors</h3>
         </section>
@@ -457,45 +496,6 @@
                                 aggregator.send(ItemPriceRequest(it))
                             }
                         aggregator.close()
-                    }
-                }
-            </code></pre>
-        </section>
-        <section data-background="images/server.png" data-background-opacity="0.6">
-            <h3>Web servers</h3>
-        </section>
-        <section>
-            <h4>One thread per request</h4>
-            <p>Classic Java web server way of handling requests.</p>
-            <p>More requests, more threads, more resources consumed.</p>
-        </section>
-        <section>
-            <h4>KTOR</h4>
-            <p>One (or more) coroutines per request.</p>
-            <pre><code class="kotlin" data-trim data-line-numbers>
-                get("/balance/{customerId}") {
-                    findAccounts(call.parameters["customerId"])
-                        .map {
-                            async { // launch + return value
-                                getBalance(it)
-                            }
-                        }
-                        .sumOf {
-                            it.await()
-                        }
-                }
-            </code></pre>
-        </section>
-        <section>
-            <h4>KTOR</h4>
-            <p>Every call can take as much time as it likes.</p>
-            <pre><code class="kotlin" data-trim data-line-numbers>
-                get("/sales.csv") {
-                    call.respondBytesWriter {
-                        getSoldItemLines() // produce lines on demand
-                            .forEach {
-                                writeAvailable(it.toByteBuffer())
-                            }
                     }
                 }
             </code></pre>
